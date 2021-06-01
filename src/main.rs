@@ -22,13 +22,13 @@ fn main() {
     }
     // Check if args.path exists and is a directory
     if !args.path.exists() || !args.path.is_dir() {
-        println!("The informed path is not a directory or not exists");
+        println!("Error: The informed path is not a directory or not exists");
         std::process::exit(-9);
     }
     // Split artifact
     let artifact_parts = args.artifact.split(":").collect::<Vec<&str>>();
     if artifact_parts.len() != 3 {
-        println!("Artifact is not in the correct format \"groupId:artifactId:version\"");
+        println!("Error: Artifact is not in the correct format \"groupId:artifactId:version\"");
         std::process::exit(-2);
     }
     // Check if sort is present
@@ -72,12 +72,12 @@ fn main() {
     let req = builder.send();
     // Check the result
     if req.is_err() {
-        println!("Error: {}", req.err().unwrap());
+        println!("Error during the request: {}", req.err().unwrap());
         std::process::exit(-3);
     }
     let res = req.unwrap();
     if !res.status().is_success() {
-        println!("Error: {}", res.text().unwrap());
+        println!("Error during the request: {}", res.text().unwrap());
         std::process::exit(-4);
     }
     // Create file name
@@ -88,23 +88,23 @@ fn main() {
     // Write downloaded file
     let content = res.bytes();
     if content.is_err() {
-        println!("Error: {}", content.err().unwrap());
+        println!("Error during while writing file: {}", content.err().unwrap());
         std::process::exit(-5);
     }
     let path_final = args.path.join(file_name);
     let out = File::create(&path_final);
     if out.is_err() {
-        println!("Error: {}", out.err().unwrap());
+        println!("Error during while writing file: {}", out.err().unwrap());
         std::process::exit(-6);
     }
     let mut out_checked = out.unwrap();
     if content.is_err() {
-        println!("Error: {}", content.err().unwrap());
+        println!("Error during while writing file: {}", content.err().unwrap());
         std::process::exit(-7);
     }
     let result_file = out_checked.write_all(&*content.unwrap());
     if result_file.is_err() {
-        println!("Error: {}", result_file.err().unwrap());
+        println!("Error during while writing file: {}", result_file.err().unwrap());
         std::process::exit(-8);
     }
 
