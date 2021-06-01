@@ -13,7 +13,7 @@ const CONTEXT: &str = "/service/rest/v1/search/assets/download";
 fn main() {
     // Get args
     let args: Cli = Cli::from_args();
-    // Check if URL end with /
+    // Check if URL end with "/"
     let url_checked: &str;
     if args.url.ends_with("/") {
         url_checked = &args.url[0..args.url.chars().count() - 1];

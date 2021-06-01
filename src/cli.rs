@@ -2,10 +2,10 @@ use std::path::PathBuf;
 
 use structopt::StructOpt;
 
-/// Download a artifact from a maven repository in Nexus
+/// Download an artifact from a maven repository in a Nexus Server
 #[derive(StructOpt)]
 pub struct Cli {
-    /// URL for the Nexus Server
+    /// URL of the Nexus Server
     #[structopt(short = "u", long = "url")]
     pub url: String,
     /// The repository name
@@ -17,13 +17,13 @@ pub struct Cli {
     /// The extension of artifact, like jar
     #[structopt(short = "e", long = "extension")]
     pub extension: String,
-    /// Sorting method, necessary if multiple versions are found
+    /// Sorting method, necessary if multiple versions are found. Useful with SNAPSHOT
     #[structopt(short = "s", long = "sort")]
     pub sort: Option<String>,
-    /// A base64 encoded of username:password, if needed
+    /// A base64 encoded of username:password, required if the repository is not public
     #[structopt(short = "c", long = "credentials")]
     pub auth: Option<String>,
-    /// The path to save the artifact
+    /// The path to the directory where the artifact will be saved
     #[structopt(short = "p", long = "path", parse(from_os_str))]
     pub path: PathBuf,
 }
