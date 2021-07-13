@@ -32,33 +32,30 @@ fn main() {
         std::process::exit(-2);
     }
     // Check if sort is present
-    let request_string: String;
-    if args.sort.is_some() {
-        request_string =
-            format!(
-                "{}{}?repository={}&maven.groupId={}&maven.artifactId={}&maven.baseVersion={}&maven.extension={}&sort={}",
-                url_checked,
-                CONTEXT,
-                args.repo,
-                artifact_parts[0],
-                artifact_parts[1],
-                artifact_parts[2],
-                args.extension,
-                args.sort.unwrap()
-            ).to_string();
+    let request_string = if args.sort.is_some() {
+        format!(
+            "{}{}?repository={}&maven.groupId={}&maven.artifactId={}&maven.baseVersion={}&maven.extension={}&sort={}",
+            url_checked,
+            CONTEXT,
+            args.repo,
+            artifact_parts[0],
+            artifact_parts[1],
+            artifact_parts[2],
+            args.extension,
+            args.sort.unwrap()
+        )
     } else {
-        request_string =
-            format!(
-                "{}{}?repository={}&maven.groupId={}&maven.artifactId={}&maven.baseVersion={}&maven.extension={}",
-                url_checked,
-                CONTEXT,
-                args.repo,
-                artifact_parts[0],
-                artifact_parts[1],
-                artifact_parts[2],
-                args.extension
-            ).to_string();
-    }
+        format!(
+            "{}{}?repository={}&maven.groupId={}&maven.artifactId={}&maven.baseVersion={}&maven.extension={}",
+            url_checked,
+            CONTEXT,
+            args.repo,
+            artifact_parts[0],
+            artifact_parts[1],
+            artifact_parts[2],
+            args.extension
+        )
+    };
     // Make the request
     let client = reqwest::blocking::Client::new();
     let builder;
