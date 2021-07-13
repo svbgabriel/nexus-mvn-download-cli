@@ -58,14 +58,13 @@ fn main() {
     };
     // Make the request
     let client = reqwest::blocking::Client::new();
-    let builder;
-    if args.auth.is_some() {
-        builder = client
+    let builder = if args.auth.is_some() {
+        client
             .get(&request_string)
-            .header("Authorization", format!("Basic {}", args.auth.unwrap()));
+            .header("Authorization", format!("Basic {}", args.auth.unwrap()))
     } else {
-        builder = client.get(&request_string);
-    }
+        client.get(&request_string)
+    };
     let req = builder.send();
     // Check the result
     if req.is_err() {
